@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedex_riverpod/models/pokemon_model.dart';
+import 'package:pokedex_riverpod/pages/pokemon.dart';
 import 'package:pokedex_riverpod/stores/pokemon_store.dart';
 
 void main() {
@@ -14,6 +15,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        routes: {
+          '/pokemon': (context) => PokemonPage(),
+        },
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -92,40 +96,45 @@ class HomePage extends ConsumerWidget {
                     children: List.generate(
                         pokemons.length,
                         (index) => Center(
-                              child: Container(
-                                color: Colors.amberAccent.shade100,
-                                constraints: const BoxConstraints.expand(),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Expanded(
-                                      flex: 3,
-                                      child: Image.network(
-                                        pokemons[index]
-                                            .sprites!
-                                            .frontDefault
-                                            .toString(),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                    ),
-                                    Expanded(
-                                        flex: 1,
-                                        child: Text(
+                              child: Material(
+                                // color: Colors.amber,
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.pushNamed(context, '/pokemon',
+                                        arguments: pokemons[index].name);
+                                  },
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Expanded(
+                                        flex: 3,
+                                        child: Image.network(
                                           pokemons[index]
-                                                  .name
-                                                  .toString()[0]
-                                                  .toUpperCase() +
-                                              pokemons[index]
-                                                  .name
-                                                  .toString()
-                                                  .substring(1)
-                                                  .toLowerCase(),
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500),
-                                        ))
-                                  ],
+                                              .sprites!
+                                              .frontDefault
+                                              .toString(),
+                                          fit: BoxFit.fitWidth,
+                                        ),
+                                      ),
+                                      Expanded(
+                                          flex: 1,
+                                          child: Text(
+                                            pokemons[index]
+                                                    .name
+                                                    .toString()[0]
+                                                    .toUpperCase() +
+                                                pokemons[index]
+                                                    .name
+                                                    .toString()
+                                                    .substring(1)
+                                                    .toLowerCase(),
+                                            style: const TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500),
+                                          ))
+                                    ],
+                                  ),
                                 ),
                               ),
                             )),

@@ -14,3 +14,11 @@ final pokemonListStateFuture = FutureProvider<List<Pokemon>>((ref) async {
   }
   return pokemons;
 });
+
+final getPokemonStateFuture =
+    FutureProvider.family<Pokemon, String>((ref, id) async {
+  Pokemon pokemon = Pokemon();
+  await fetchPokemon('https://pokeapi.co/api/v2/pokemon/$id')
+      .then((pok) => pokemon = pok);
+  return pokemon;
+});
